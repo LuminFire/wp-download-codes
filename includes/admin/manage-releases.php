@@ -84,15 +84,8 @@ function dc_manage_releases() {
 		//*********************************************
 		// Add or edit a release
 		//*********************************************
-	
-		// Get zip files in download folder
-		$files = scandir( dc_file_location() );
-		$num_download_files = 0;
-		foreach ( $files as $filename ) {
-			if ( in_array(strtolower( substr($filename,-3) ), dc_file_types() ) ) {
-				$num_download_files++;
-			}
-		}
+
+		$num_download_files = dc_get_file_count();
 		if ( $num_download_files == 0) {
 			echo dc_admin_message( 'No files have been uploaded to the releases folder: <em>' . dc_file_location() . '</em></p><p><strong>You must do this first before adding a release!</strong>' );
 		}
@@ -134,20 +127,11 @@ function dc_manage_releases() {
 		// File
 		echo '<tr valign="top">';
 		echo '<th scope="row"><label for="release-file">File</label></th>';
-		echo '<td>' . dc_file_location() . ' <select name="filename" id="release-file">-->';
-		
-		// Get array of allowed file types/extensions
-		$allowed_file_types = dc_file_types();
-		
-		// List all files matching the allowed extensions
-		foreach ( $files as $filename ) {
-			$file_extension_array = preg_split( '/\./', $filename );
-			$file_extension = strtolower( $file_extension_array[ sizeof( $file_extension_array ) - 1 ] );
-			if ( in_array( $file_extension, $allowed_file_types ) ) {
-				echo '<option' . ( $filename == $release->filename ? ' selected="selected"' : '' ) . '>' . $filename . '</option>';
-			}
-		}
-		echo '</select></td>';
+		echo '<td>';
+
+		echo dc_file_select( $release );
+
+		echo '</td>';
 		echo '</tr>';
 		
 		// Allowed downloads

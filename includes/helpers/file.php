@@ -55,6 +55,57 @@ function dc_file_types() {
 	return $arr_file_types;
 }
 
+function dc_get_files() {
+	// Get zip files in download folder
+	$files = scandir( dc_file_location() );
+	return $files;
+}
+
+function dc_get_file_count() {
+	$files = dc_get_files();
+	$num_download_files = 0;
+	foreach ( $files as $filename ) {
+		if ( in_array(strtolower( substr($filename,-3) ), dc_file_types() ) ) {
+			$num_download_files++;
+		}
+	}
+	return $num_download_files;
+}
+
+function dc_file_select( $release ) {
+	// Give 3rd parties a chance to short circuit and provide a different location.
+	if ( ( $alt_select = apply_filters( 'dc_file_select', false, $release ) ) !== false ) {
+		return $alt_select;
+	}
+
+	$files = dc_get_files();
+
+	$select =  dc_file_location() . ' <select name="filename" id="release-file">-->';
+
+	// Get array of allowed file types/extensions
+	$allowed_file_types = dc_file_types();
+
+	// List all files matching the allowed extensions
+	foreach ( $files as $filename ) {
+		$file_extension_array = preg_split( '/\./', $filename );
+		$file_extension = strtolower( $file_extension_array[ sizeof( $file_extension_array ) - 1 ] );
+		if ( in_array( $file_extension, $allowed_file_types ) ) {
+			$select .= '<option' . ( $filename == $release->filename ? ' selected="selected"' : '' ) . '>' . $filename . '</option>';
+		}
+	}
+	$select .= '</select>';
+	return $select;
+}
+
+function dc_get_download_size( $filename ) {
+	// Give 3rd parties a chance to short circuit and provide a different location.
+	if ( ( $alt_size = apply_filters( 'dc_download_size', false, $filename ) ) !== false ) {
+		return $alt_size;
+	}
+
+	return format_bytes( filesize( dc_file_location() . $filename ) );
+}
+
 /**
  * Converts bytes into meaningful file size
  */

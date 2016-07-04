@@ -90,7 +90,7 @@ function dc_embed_download_code_form( $atts ) {
 	if ( $download_lease_id[$shortcode_id] && ( $shortcode_id == 'all' || $shortcode_id == $submitted_release )) {
 		// Show link for download
 		$html .= '<p>' . dc_msg( 'code_valid' ) . '</p>';
-		$html .= '<p><a href="' . site_url() . '/?lease=' . $download_lease_id[$shortcode_id] . '">' . ( $release->artist ? $release->artist . ' - ' : '' ) . $release->title . '</a> ' . format_bytes( filesize( dc_file_location() . $release->filename ) ) . '</p>'; 
+		$html .= '<p><a href="' . site_url() . '/?lease=' . $download_lease_id[$shortcode_id] . '">' . ( $release->artist ? $release->artist . ' - ' : '' ) . $release->title . '</a> ' . dc_get_download_size( $release->filename ) . '</p>'; 
 	}
 	else {
 		// Show message

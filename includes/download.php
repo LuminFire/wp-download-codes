@@ -43,6 +43,8 @@ function dc_send_download_headers() {
 			$wpdb->insert(	dc_tbl_downloads(),
 							array( 'code' => $release->code, 'IP' => $IP),
 							array( '%d', '%s') );
+
+			do_action( 'dc_download', $release );
 			
 			// If Apache's xsendfile is enabled (must be installed and working on server side)
 			if ( dc_xsendfile_enabled() ) {
