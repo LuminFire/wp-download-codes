@@ -54,6 +54,8 @@ function dc_manage_settings() {
 		update_option( 'dc_msg_code_invalid' , $_POST['dc_msg_code_invalid'] );
 		update_option( 'dc_msg_max_downloads_reached' , $_POST['dc_msg_max_downloads_reached'] );
 		update_option( 'dc_msg_max_attempts_reached' , $_POST['dc_msg_max_attempts_reached'] );
+
+		do_action( 'dc_settings_updated' );
 		
 		// Print message
 		echo dc_admin_message( 'The settings have been updated.' );	
@@ -185,6 +187,8 @@ function dc_manage_settings() {
 	echo '</tr>';
 	
 	echo '</table>';
+
+	do_action( 'dc_settings_before_save' );
 	
 	echo '<p class="submit">';
 	echo '<input type="submit" name="submit" class="button-primary" value="Save Changes" />';
