@@ -62,6 +62,11 @@ function dc_get_files() {
 }
 
 function dc_get_file_count() {
+	// Give 3rd parties a chance to short circuit and provide a different location.
+	if ( ( $alt_count = apply_filters( 'dc_file_count', false, $release ) ) !== false ) {
+		return $alt_count;
+	}
+
 	$files = dc_get_files();
 	$num_download_files = 0;
 	foreach ( $files as $filename ) {
