@@ -1,10 +1,10 @@
 === Plugin Name ===
-Contributors: misanthrop
+Contributors: misanthrop, cimburacom
 Donate link: http://wordpress.org/extend/plugins/wp-download-codes/
 Tags: download, download code, code generator
 Requires at least: 2.5
 Tested up to: 4.5
-Stable tag: 2.5.1
+Stable tag: 2.6.0
 
 The plugin enables to generation and management of download codes for all types of files (zip, mp3, ...).
 
@@ -65,6 +65,9 @@ Yes, if you have an Apache server running with mod_xsendfile (https://tn123.org/
 
 
 == Changelog ==
+
+= 2.6.0 =
+* Fixed bug in release management (no files are shown when PHP version >7 is used)
 
 = 2.5.1 =
 * Fixed bug in release management (no files are shown when PHP version >7 is used)
